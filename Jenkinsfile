@@ -10,13 +10,23 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'pip3 install -r requirements.txt'
+                script {
+                    // Assuming 'requirements.txt' is in the root of your project
+                    // Adjust the path if your file is located elsewhere
+                    dir("${WORKSPACE}") {
+                        sh 'pip3 install -r requirements.txt --user'
+                    }
+                }
             }
         }
 
         stage('Test') {
             steps {
-                sh 'python -m unittest discover'
+                script {
+                    dir("${WORKSPACE}") {
+                        sh 'python -m unittest discover'
+                    }
+                }
             }
         }
 
